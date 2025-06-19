@@ -1,3 +1,6 @@
+📦 Containerized Flask + SQLite + Static Frontend
+
+Проект: sample-flask-sqlite
 
 🌟 Описание
 
@@ -96,4 +99,3 @@ Docker, Docker Compose
 Тестове и CI: Настрой GitHub Actions за автоматични тестове и билдове.
 
 Production: Деплой в Kubernetes или Docker Swarm с Load Balancer.
-
