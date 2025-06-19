@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Manager</title>
+</head>
+<body>
+  <h1>Item Manager</h1>
+  <ul id="items"></ul>
+  <input type="text" id="nameInput" placeholder="New item name" />
+  <button id="addBtn">Add Item</button>
+
+  <script>
+    const apiUrl = '/api/items';
+    async function loadItems() {
+      const res = await fetch(apiUrl);
+      const items = await res.json();
+      const list = document.getElementById('items');
+      list.innerHTML = '';
+      items.forEach(i => {
+        const li = document.createElement('li');
+        li.textContent = `${i.id}: ${i.name}`;
+        list.appendChild(li);
+      });
+    }
+    document.getElementById('addBtn').onclick = async () => {
+      const name = document.getElementById('nameInput').value;
+      await fetch(apiUrl, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
+      document.getElementById('nameInput').value = '';
+      loadItems();
+    };
+    loadItems();
+  </script>
+</body>
