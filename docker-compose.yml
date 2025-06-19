@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: your-dockerhub-username/sample-web-sqlite:latest
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./data:/data
+    networks:
+      - appnet
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: your-dockerhub-username/sample-frontend:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    networks:
+      - appnet
+
+networks:
+  appnet:
