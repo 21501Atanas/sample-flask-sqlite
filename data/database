@@ -1,0 +1,41 @@
+CREATE DATABASE SAMPLE_FLASK_SQLITE;
+
+CREATE TABLE IF NOT EXISTS item (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица category
+CREATE TABLE IF NOT EXISTS category (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL
+);
+
+-- Таблица за връзка много към много между item и category
+CREATE TABLE IF NOT EXISTS item_category (
+    item_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY (item_id, category_id),
+    FOREIGN KEY (item_id) REFERENCES item(id),
+    FOREIGN KEY (category_id) REFERENCES category(id)
+);
+
+-- Вмъкване на примерни категории
+INSERT OR IGNORE INTO category (id, title) VALUES
+    (1, 'Work'),
+    (2, 'Personal'),
+    (3, 'Urgent');
+
+-- Вмъкване на примерни задачи
+INSERT OR IGNORE INTO item (id, name) VALUES
+    (1, 'Finish report'),
+    (2, 'Buy groceries'),
+    (3, 'Call John');
+
+-- Връзки задачи ↔ категории
+INSERT OR IGNORE INTO item_category (item_id, category_id) VALUES
+    (1, 1),  -- Finish report → Work
+    (1, 3),  -- Finish report → Urgent
+    (2, 2),  -- Buy groceries → Personal
+    (3, 1);  -- Call John → Work
